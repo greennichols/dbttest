@@ -5,4 +5,19 @@ sources:
     database: LINKEDIN_DB
     schema: GOOGLE_SHEETS
     tables:
+      # Form Source
       - name: FORM_INFO
+        description: "Raw form submission activities synced from Google Sheets."
+
+      # Email Source
+      - name: EMAILINFO
+        description: "Raw Pardot email performance metrics synced from Google Sheets."
+        columns:
+          - name: DATE
+          - name: LISTRECIPIENTS
+          - name: UNSUBSCRIBED
+          - name: EMAILS_OPENED_UNIQUE_
+          - name: EMAILS_SENT
+          - name: EMAILS_CLICKED_UNIQUE_
+          - name: EMAILS_BOUNCED
+          - name: EMAIL_NAME
