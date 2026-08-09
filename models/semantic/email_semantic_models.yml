@@ -1,0 +1,51 @@
+version: 2
+
+semantic_models:
+  - name: email_performance
+    description: "Semantic model for Pardot email marketing performance"
+    model: ref('int_pardot_email_performance_cleaned')
+
+    entities:
+      - name: email_performance_id
+        type: primary
+
+    dimensions:
+      - name: activity_month
+        type: time
+        type_params:
+          time_granularity: month
+      - name: region
+        type: categorical
+      - name: email_name
+        type: categorical
+
+    measures:
+      - name: total_emails_sent
+        description: "Total volume of emails delivered"
+        agg: sum
+        expr: emails_sent
+
+      - name: total_unique_opens
+        description: "Total unique email opens"
+        agg: sum
+        expr: unique_opens
+
+      - name: total_unique_clicks
+        description: "Total unique email clicks"
+        agg: sum
+        expr: unique_clicks
+
+metrics:
+  - name: total_emails_sent_metric
+    description: "Total emails sent"
+    type: simple
+    label: "Total Emails Sent"
+    type_params:
+      measure: total_emails_sent
+
+  - name: total_unique_opens_metric
+    description: "Total unique opens"
+    type: simple
+    label: "Total Unique Opens"
+    type_params:
+      measure: total_unique_opens

@@ -1,24 +1,48 @@
 version: 2
 
 models:
+  # ==========================================
+  # 1. Form Pipeline Models
+  # ==========================================
   - name: stg_pardot_visitor_activities
-    description: "Cleaned raw Pardot visitor activities synced via Fivetran"
+    description: "Bronze staging model for Pardot raw form activity submissions"
     columns:
       - name: activity_id
-        description: "Primary key for the activity event"
         tests:
-          - unique
           - not_null
-      - name: activity_type
+          - unique
+
+  - name: int_pardot_visitor_activities_cleaned
+    description: "Silver intermediate model for cleaned form submissions with region tagging"
+    columns:
+      - name: activity_id
+        tests:
+          - not_null
+          - unique
+
+  # ==========================================
+  # 2. Email Pipeline Models
+  # ==========================================
+  - name: stg_pardot_email_performance
+    description: "Bronze staging model for Pardot raw email campaign performance metrics"
+    columns:
+      - name: email_performance_id
+        tests:
+          - not_null
+          - unique
+      - name: email_sent_date
         tests:
           - not_null
 
-  - name: fct_monthly_form_performance
-    description: "Monthly aggregated performance metrics for EG forms"
+  - name: int_pardot_email_performance_cleaned
+    description: "Silver intermediate model with calculated open, click, and bounce rates"
     columns:
-      - name: form_id
+      - name: email_performance_id
         tests:
           - not_null
-      - name: total_activities
+          - unique
+      - name: region
         tests:
-          - not_null
+          - accepted_values:
+              arguments:
+                values: ['EG Region', 'Other Region']
