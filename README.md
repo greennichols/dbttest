@@ -1,0 +1,2 @@
+# dbttest
+dbt play
