@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: google_sheets
+    database: LINKEDIN_DB
+    schema: GOOGLE_SHEETS
+    tables:
+      - name: FORM_INFO

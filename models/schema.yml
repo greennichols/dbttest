@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_pardot_visitor_activities
+    description: "Cleaned raw Pardot visitor activities synced via Fivetran"
+    columns:
+      - name: activity_id
+        description: "Primary key for the activity event"
+        tests:
+          - unique
+          - not_null
+      - name: activity_type
+        tests:
+          - not_null
+
+  - name: fct_monthly_form_performance
+    description: "Monthly aggregated performance metrics for EG forms"
+    columns:
+      - name: form_id
+        tests:
+          - not_null
+      - name: total_activities
+        tests:
+          - not_null
