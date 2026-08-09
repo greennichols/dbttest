@@ -1,0 +1,53 @@
+version: 2
+
+semantic_models:
+  - name: form_activities
+    description: "Semantic model for Pardot form activity events"
+    model: ref('int_pardot_visitor_activities_cleaned')
+
+    entities:
+      - name: activity
+        type: primary
+        expr: activity_id
+      - name: form
+        type: foreign
+        expr: form_id
+
+    dimensions:
+      - name: activity_month
+        type: time
+        type_params:
+          time_granularity: month
+        expr: activity_month
+      - name: form_name
+        type: categorical
+        expr: form_name
+      - name: region
+        type: categorical
+        expr: region
+
+    measures:
+      - name: form_submissions
+        description: "Total number of form submission events"
+        agg: count
+        expr: activity_id
+
+      - name: unique_forms_submitted
+        description: "Distinct forms that received submissions"
+        agg: count_distinct
+        expr: form_id
+
+metrics:
+  - name: total_form_submissions
+    description: "Total count of EG form submissions"
+    type: simple
+    label: "Total Form Submissions"
+    type_params:
+      measure: form_submissions
+
+  - name: distinct_active_forms
+    description: "Number of active forms submitted during the period"
+    type: simple
+    label: "Active Forms Count"
+    type_params:
+      measure: unique_forms_submitted
